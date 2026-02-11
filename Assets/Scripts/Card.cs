@@ -12,7 +12,7 @@ public class Card : MonoBehaviour
     [SerializeField] private Sprite backSprite;     //뒤집힌 카드가 다시 뒤집힘==앞면으로 전환
 
     private bool isFlipped = false;     //ture이면 카드가 뒤집힌거고 false이면 안뒤집힌것.
-    
+    private bool isFlipping=false;      //처음엔 뒤집고있지않으니까false.
 
 
     void Start()
@@ -29,6 +29,8 @@ public class Card : MonoBehaviour
 
     public void FlipCard()      //이미지 교체
     {
+        isFlipping=true;
+
         Vector3 originalScale = transform.localScale;       //3차원백터,인스펙터의 스케일값을 기본값으로 설정.
         Vector3 targetScale=new Vector3(0f,originalScale.y,originalScale.z);    //3차원백터는 3개의 실수(더블이 아닌 float값)좌표값을 갖는다.(x,y,z축)
 
@@ -45,7 +47,11 @@ public class Card : MonoBehaviour
                 cardRenderer.sprite = backSprite;
             }
 
-            transform.DOScale(originalScale, 0.2f);
+            transform.DOScale(originalScale, 0.2f).OnComplete(() =>
+            {
+                isFlipping = false;     //완료되면 뒤집고 있는 상태가 아니게끔 변경
+            });
+
 
         });
 
@@ -60,6 +66,10 @@ public class Card : MonoBehaviour
 
     void OnMouseDown()
     {
-        FlipCard();         //메소드호출(위에서 구현해 둔 메소드 가져와서 호출)
+        if(!isFlipping)
+        {
+            FlipCard();         //메소드호출(위에서 구현해 둔 메소드 가져와서 호출)
+        }
+        
     }
 }
