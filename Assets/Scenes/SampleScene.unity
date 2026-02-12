@@ -237,6 +237,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 9124200065934231915, guid: 30447427530d0d54aa0c747f4235d618, type: 3}
+  cardSprites:
+  - {fileID: -891333015, guid: bf836c580cf429e45a1e58a16080cce6, type: 3}
+  - {fileID: 1616823284, guid: bf836c580cf429e45a1e58a16080cce6, type: 3}
+  - {fileID: -403179919, guid: bf836c580cf429e45a1e58a16080cce6, type: 3}
+  - {fileID: 1631823449, guid: bf836c580cf429e45a1e58a16080cce6, type: 3}
+  - {fileID: 1636226112, guid: bf836c580cf429e45a1e58a16080cce6, type: 3}
+  - {fileID: 1538924628, guid: bf836c580cf429e45a1e58a16080cce6, type: 3}
+  - {fileID: 620451758, guid: cdeb6b34aa592df489f51fa81914e2f8, type: 3}
+  - {fileID: -1624251664, guid: cdeb6b34aa592df489f51fa81914e2f8, type: 3}
+  - {fileID: 1776156971, guid: cdeb6b34aa592df489f51fa81914e2f8, type: 3}
+  - {fileID: -1248769851, guid: cdeb6b34aa592df489f51fa81914e2f8, type: 3}
 --- !u!4 &1250894109
 Transform:
   m_ObjectHideFlags: 0

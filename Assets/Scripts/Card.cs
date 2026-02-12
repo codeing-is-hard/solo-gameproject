@@ -15,15 +15,9 @@ public class Card : MonoBehaviour
     private bool isFlipping=false;      //처음엔 뒤집고있지않으니까false.
 
 
-    void Start()
+    public void SetAnimalSprite(Sprite sprite)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        animalSprite = sprite;
     }
 
 
