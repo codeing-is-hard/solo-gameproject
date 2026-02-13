@@ -15,14 +15,34 @@ public class Board : MonoBehaviour
 
     void Start()
     {
-        GenerateCardID();
+        GenerateCardID();           //카드ID를 만들어서 1쌍으로 출력되도록 호출
+        ShuffleCardID();            //카드섞는메소드
         InitBoard();
     }
 
+    void ShuffleCardID()
+    {
+        int cardCount = cardIDList.Count;
+        for (int i = 0; i < cardCount; i++)
+        {
+            int randomIndex = Random.Range(i, cardCount);   //랜덤한 값을 뽑는데 i범위~cardcount의 범위 내에서 뽑음    
+            int temp=cardIDList[randomIndex];
+            cardIDList[randomIndex] = cardIDList[i];        //카드id리스트의랜덤한값을 카드아이디리스트의 i번째로교체.
+            cardIDList[i] = temp;
+            //스왑 하는 과정,랜덤한 값을 뽑은걸 i번째의 숫자하고 바꾸는 과정,랜덤한 동물카드가 게임뷰에서 표시하기 위함..
+
+            
+        }
+    }
+
+
+
+
+
     void GenerateCardID()       //카드에들어갈 ID를지정하는메소드.
     {
-        for (int i = 0; i < cardSprites.Length; i++)        //사진10개를 가로 세로 형태로 넣을꺼니까 0~19까지 반복..
-                                                            //(0,0)~(19,19)까지.
+        for (int i = 0; i < cardSprites.Length; i++)        //사진10개를 가로 세로 형태로 넣을꺼니까 0~9까지 반복..
+                                                            //(0,0)~(9,9)까지.
         {
             cardIDList.Add(i);
             cardIDList.Add(i);
