@@ -9,11 +9,29 @@ public class Board : MonoBehaviour
 
     [SerializeField] private Sprite[] cardSprites;      //사진 속 동물들 담아둘 배열
 
+    private List<int> cardIDList= new List<int>();
+
+
 
     void Start()
     {
+        GenerateCardID();
         InitBoard();
     }
+
+    void GenerateCardID()       //카드에들어갈 ID를지정하는메소드.
+    {
+        for (int i = 0; i < cardSprites.Length; i++)        //사진10개를 가로 세로 형태로 넣을꺼니까 0~19까지 반복..
+                                                            //(0,0)~(19,19)까지.
+        {
+            cardIDList.Add(i);
+            cardIDList.Add(i);
+        }
+    }
+
+
+
+
 
     void InitBoard()
     {
@@ -44,13 +62,14 @@ public class Board : MonoBehaviour
                 Vector3 pos=new Vector3(posX,posY,0f);          //3차원백터의 포지션=새로운 3차원백터의 0,0,0의좌표값을가짐.
                 GameObject cardObject=Instantiate(cardPrefab, pos, Quaternion.identity);         //회전값이 필요없음,새로운오브젝트Instantiate가 만들어짐,
                 Card card = cardObject.GetComponent<Card>();
-                card.SetAnimalSprite(cardSprites[cardIndex++]);       //처음에는 0번이므로 0번째동물사진이 setanimalsprite에들어감.
 
+                int cardID = cardIDList[cardIndex++];       //카드id리스트의 인덱스안에있는값을 카드id로설정하고 반복문에 의해 0번째부터 순회.
+                card.SetCardID(cardID);         //카드를 한쌍씩 똑같은 그림으로 출력하도록 하기 위한  id값    
+
+                card.SetAnimalSprite(cardSprites[cardID]);       //처음에는 0번이므로 0번째동물사진이 setanimalsprite에들어감.
+                //cardID에의해 0,0부터시작..총20장의카드가 1쌍씩 출력됨.(현재는 정해진 순서로만 나옴.)
                 //5*4번수행됨
-                if (cardIndex >= cardSprites.Length)        //후반부에 사라질 임시 오류 방지 코드
-                {
-                    return;
-                }
+                
             }
         }
     }

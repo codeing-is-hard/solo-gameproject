@@ -14,6 +14,18 @@ public class Card : MonoBehaviour
     private bool isFlipped = false;     //ture이면 카드가 뒤집힌거고 false이면 안뒤집힌것.
     private bool isFlipping=false;      //처음엔 뒤집고있지않으니까false.
 
+    public int cardID;          //카드 id설정에사용할변수.
+
+
+    public void SetCardID(int id)       //카드 id설정
+    {
+        cardID=id;
+
+    }
+
+
+
+
 
     public void SetAnimalSprite(Sprite sprite)
     {
