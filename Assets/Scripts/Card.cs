@@ -12,7 +12,9 @@ public class Card : MonoBehaviour
     [SerializeField] private Sprite backSprite;     //뒤집힌 카드가 다시 뒤집힘==앞면으로 전환
 
     private bool isFlipped = false;     //ture이면 카드가 뒤집힌거고 false이면 안뒤집힌것.
-    private bool isFlipping=false;      //처음엔 뒤집고있지않으니까false.
+    private bool isFlipping = false;   //처음엔 뒤집고있지않으니까false.
+
+    private bool isMatched=false;   //처음엔 맞는카드가없으므로false..
 
     public int cardID;          //카드 id설정에사용할변수.
 
@@ -23,7 +25,10 @@ public class Card : MonoBehaviour
 
     }
 
-
+    public void SetMatched()
+    {
+        isMatched=true;
+    }
 
 
 
@@ -72,7 +77,7 @@ public class Card : MonoBehaviour
 
     void OnMouseDown()
     {
-        if(!isFlipping)
+        if (!isFlipping && !isMatched)      //뒤집고 있지 않고 맞는 카드가 없을 때만 뒤집도록 수정
         {
             GameManager.instance.CardClicked(this);         //게임 매니저의 메소드 호출(게임 매니저에서 구현해 둔 메소드 가져와서 호출)
             //카드를 뒤집는 주체가 카드에서 게임매니저로 변경됨

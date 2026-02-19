@@ -9,7 +9,11 @@ public class GameManager : MonoBehaviour
 
     private List<Card> allCards;    //리스트에 잇는 모든 카드들에 해당하는 객체
 
-    private Card flippedCard;
+    private Card flippedCard;       //카드가 서로 같은 짝이 뒤집혀졋는지 확인할 객체
+
+    private bool isFlipping = false;        //현재 카드가 뒤집혀지고 있는지 확인,현재는 아니므로 거짓으로 기본 설정
+
+
 
 
     void Awake()
@@ -33,6 +37,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator FlipAllCardsRoutine()
     {
+        isFlipping = true;      //수행되기 전이므로 true설정
+
         yield return new WaitForSeconds(0.5f);      //0.50초 동안 대기
         FlipAllCards();     //대기 끝나면 실행,처음 뒤집어서 보여주기
         yield return new WaitForSeconds(3f);        //3초 대기후에
@@ -42,7 +48,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         //한번 실행된 뒤에는 코루틴이 자동으로 멈춤.
 
-
+        isFlipping = false;     //수행되고 나면 뒤집고 잇는 상태가 아니므로 기본값 설정
     }
 
 
@@ -56,6 +62,14 @@ public class GameManager : MonoBehaviour
 
     public void CardClicked(Card card)      //카드가 짝이 맞게 클릭되었는지 확인할 메소드
     {
+        if (isFlipping == true)     //뒤집혀지고 있는 동안에는 클릭 무시
+        {
+            return;
+        }
+
+
+
+
         card.FlipCard();
 
         if (flippedCard == null)            //현재 뒤집힌 카드가 하나도 없으면
@@ -74,7 +88,9 @@ public class GameManager : MonoBehaviour
     {
         if(card1.cardID == card2.cardID)        //카드의 id가같으면 같은카드로 취급함
         {
-            Debug.Log("같은 카드입니다");
+            card1.SetMatched();
+            card2.SetMatched();
+            Debug.Log("같은 카드입니다");      
         }
         else
         {
