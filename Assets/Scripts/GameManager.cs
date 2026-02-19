@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
 
     private List<Card> allCards;    //리스트에 잇는 모든 카드들에 해당하는 객체
 
+    private Card flippedCard;
+
+
     void Awake()
     {
         if(instance == null)
@@ -50,4 +53,44 @@ public class GameManager : MonoBehaviour
             card.FlipCard();        //순차적으로 1번에 뒤집힐것.
         }
     }
+
+    public void CardClicked(Card card)      //카드가 짝이 맞게 클릭되었는지 확인할 메소드
+    {
+        card.FlipCard();
+
+        if (flippedCard == null)            //현재 뒤집힌 카드가 하나도 없으면
+        {
+           flippedCard= card;       //현재 카드를 넣기
+        }
+
+        else
+        {
+            StartCoroutine(CheckMatchRoutine(flippedCard,card));       //2개의 전달값(flippedCard,card)을 보내기 위해 ""를 쓸 수 없다.
+        }
+
+    }
+
+    IEnumerator CheckMatchRoutine(Card card1, Card card2)       //2개의 인자값을 가지므로
+    {
+        if(card1.cardID == card2.cardID)        //카드의 id가같으면 같은카드로 취급함
+        {
+            Debug.Log("같은 카드입니다");
+        }
+        else
+        {
+            Debug.Log("다른 카드입니다,다시 시도해주세요.");
+
+            yield return new WaitForSeconds(1f);        //다르면 1초기다린뒤에 카드2장을 다시뒤집어서 원상복구한다.
+
+            card1.FlipCard();
+            card2.FlipCard();
+
+            yield return new WaitForSeconds(0.5f);      //뒤집는 여유 시간 확보0.5초
+        }
+
+        flippedCard= null;      // 초기화하지 않으면 한장만 뒤집어도 코루틴으로 바로 넘어갈 수 있어서 초기화해야함.
+    }
+
+
+
 }

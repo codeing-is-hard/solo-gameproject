@@ -74,8 +74,9 @@ public class Card : MonoBehaviour
     {
         if(!isFlipping)
         {
-            FlipCard();         //메소드호출(위에서 구현해 둔 메소드 가져와서 호출)
-        }
+            GameManager.instance.CardClicked(this);         //게임 매니저의 메소드 호출(게임 매니저에서 구현해 둔 메소드 가져와서 호출)
+            //카드를 뒤집는 주체가 카드에서 게임매니저로 변경됨
+        }   
         
     }
 }
