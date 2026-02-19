@@ -11,7 +11,7 @@ public class Board : MonoBehaviour
 
     private List<int> cardIDList= new List<int>();
 
-
+    private List<Card> cardList= new List<Card>();
 
     void Start()
     {
@@ -72,8 +72,6 @@ public class Board : MonoBehaviour
                 //우리가 원하는 가로 정렬된 x값=가로길이-(전체 가로 길이/2))*x만큼의 간격+(x만큼의 간격/2)를 더한 값
 
 
-
-
                 float posY = (row - (int)(rowCount / 2)) * spaceY;      // 우리가 원하는 row y값=(세로길이-(정수형 변환)(가로길이/2))*y간격을 하면
                                                                         // 원하는y값이되고,그값울 3차원 백터의y값으로 넣는다.(가로 길이를 2로 나눈 나머지에서 반올림 함)...
                                                                         //형변환안하면 결과가이상해질수있음,int형으로 강제 형변환시 0.5보다 커도 소숫점 자리를 그냥 없애고 정수부분만 가져다가 씀..
@@ -89,9 +87,14 @@ public class Board : MonoBehaviour
                 card.SetAnimalSprite(cardSprites[cardID]);       //처음에는 0번이므로 0번째동물사진이 setanimalsprite에들어감.
                 //cardID에의해 0,0부터시작..총20장의카드가 1쌍씩 출력됨.(현재는 정해진 순서로만 나옴.)
                 //5*4번수행됨
-                
+
+                cardList.Add(card);     //카드리스트에 카드를추가해서
             }
         }
     }
-   
+
+    public List<Card> GetCards()    //리턴해서 리스트를순회하면서 모든카드를 한번에뒤집는다
+    {
+        return cardList;
+    }
 }
