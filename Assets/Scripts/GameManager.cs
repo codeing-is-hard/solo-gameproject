@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;        //택스트파일 수정하려면 적어야함.
 using UnityEngine;
 using UnityEngine.UI;           //실린더쓸거면적어야함
+
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class GameManager : MonoBehaviour
     private Card flippedCard;       //카드가 서로 같은 짝이 뒤집혀졋는지 확인할 객체
 
     private bool isFlipping = false;        //현재 카드가 뒤집혀지고 있는지 확인,현재는 아니므로 거짓으로 기본 설정
+
+    [SerializeField] private TextMeshProUGUI timeoutText;       //제한시간을 보여줄 택스트
 
     [SerializeField] private Slider timeoutSlider;      //남은 시간을 나타낼 실린더 변수
     [SerializeField] private float timeLimit = 60f;      //시간최대값 60초
