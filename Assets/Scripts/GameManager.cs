@@ -52,11 +52,11 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void FlipAllCards() //한번에 카드를 뒤집을 메소드
+    void FlipAllCards()         //한번에 카드를 뒤집을 메소드
     {
         foreach(Card card in allCards)
         {
-            card.FlipCard();        //순차적으로 1번에 뒤집힐것.
+            card.FlipCard();        //순차적으로 1번씩 뒤집힐것.
         }
     }
 
@@ -86,6 +86,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CheckMatchRoutine(Card card1, Card card2)       //2개의 인자값을 가지므로
     {
+        isFlipping = true;      //처음엔 뒤집고 있는 중인 상태
+
         if(card1.cardID == card2.cardID)        //카드의 id가같으면 같은카드로 취급함
         {
             card1.SetMatched();
@@ -104,7 +106,12 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);      //뒤집는 여유 시간 확보0.5초
         }
 
+
+        isFlipping=false;       //조건문이수행된뒤에는 뒤집는중이아니도록설정
+
         flippedCard= null;      // 초기화하지 않으면 한장만 뒤집어도 코루틴으로 바로 넘어갈 수 있어서 초기화해야함.
+
+        
     }
 
 

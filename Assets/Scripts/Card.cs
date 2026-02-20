@@ -77,7 +77,7 @@ public class Card : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (!isFlipping && !isMatched)      //뒤집고 있지 않고 맞는 카드가 없을 때만 뒤집도록 수정
+        if (!isFlipping && !isMatched && !isFlipped)      //뒤집고 있지 않고 맞는 카드가 없고 뒤집힌 상태가 아닐 때  수정
         {
             GameManager.instance.CardClicked(this);         //게임 매니저의 메소드 호출(게임 매니저에서 구현해 둔 메소드 가져와서 호출)
             //카드를 뒤집는 주체가 카드에서 게임매니저로 변경됨
