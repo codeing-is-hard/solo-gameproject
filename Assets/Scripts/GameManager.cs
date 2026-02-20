@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;           //실린더쓸거면적어야함
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,10 @@ public class GameManager : MonoBehaviour
 
     private bool isFlipping = false;        //현재 카드가 뒤집혀지고 있는지 확인,현재는 아니므로 거짓으로 기본 설정
 
+    [SerializeField] private Slider timeoutSlider;      //남은 시간을 나타낼 실린더 변수
+    [SerializeField] private float timeLimit = 60f;      //시간최대값 60초
 
+    private float currentTime;      //현재 남아있는 시간을 나타낼 변수
 
 
     void Awake()
@@ -28,6 +32,8 @@ public class GameManager : MonoBehaviour
     {
         Board board = FindObjectOfType<Board>();        //찾으려고하는 오브젝트타입을 적는다.
         allCards = board.GetCards();
+
+        currentTime = timeLimit;        //처음시간을 60초로 설정
 
         StartCoroutine("FlipAllCardsRoutine");       //코루틴이벤트시작,코루틴을 문자열로 호출해야만 멈출 수 있다.
                                                      //지금은 실행하고 인터페이스가 진행되면 자동으로 멈춤(반복을 위해선 코루틴 내에 반복문 설정->yield리턴을 반복문 내에 작성하면 가능)
@@ -49,7 +55,23 @@ public class GameManager : MonoBehaviour
         //한번 실행된 뒤에는 코루틴이 자동으로 멈춤.
 
         isFlipping = false;     //수행되고 나면 뒤집고 잇는 상태가 아니므로 기본값 설정
+
+        yield return StartCoroutine("CountDownTimerRoutine");      //코루틴 안에서 새로운 코루틴을 시작하고 싶을 때 반복문 대신 사용가능
     }
+
+    IEnumerator CountDownTimerRoutine()     //최대시간에서현재
+    {
+        while (currentTime > 0)     //현재시간이0초보다클때
+        {
+            currentTime -= Time.deltaTime;      //서로 다른 환경에서도 동일한 시간을 빼기 위해 프레임 보정해야함
+            timeoutSlider.value = currentTime / timeLimit;          //실린더의 값=현재 시간을 최대 시간으로 나눈 값
+            yield return null;      //지연없이 바로 다음 코루틴으로 진행
+        }
+
+        GameOver(false);
+
+    }
+
 
 
     void FlipAllCards()         //한번에 카드를 뒤집을 메소드
@@ -115,5 +137,15 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    void GameOver(bool success)
+    {
+        if(success)
+        {
+            Debug.Log("모든 카드를 성공적으로 뒤집으셧네요!!");
+        }
+        else
+        {
+            Debug.Log("제한 시간내에 모든 카드를 뒤집는데 실패했습니다..");
+        }
+    }
 }
