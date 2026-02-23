@@ -18,11 +18,20 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI timeoutText;       //Á¦ÇÑ½Ã°£À» º¸¿©ÁÙ ÅÃ½ºÆ®
 
+    [SerializeField] private TextMeshProUGUI gameOverText;      //°ÔÀÓÀ» Å¬¸®¾î ¶Ç´Â ½ÇÆĞ½Ã È­¸é¿¡ º¸¿©ÁÙ ÅÃ½ºÆ®
+
+
+    [SerializeField] private GameObject gameOverPanel;      //°ÔÀÓÀ» Å¬¸®¾îÇß°Å³ª ½ÇÆĞÇßÀ»¶§ º¸¿©ÁÙ ÆĞ³Î
+
+    private bool isGameOver=false;      //Ã³À½¿¡´Â °ÔÀÓÁøÇàÁßÀÏ °ÍÀÌ±â ¶§¹®¿¡ °ÅÁş
+
     [SerializeField] private Slider timeoutSlider;      //³²Àº ½Ã°£À» ³ªÅ¸³¾ ½Ç¸°´õ º¯¼ö
     [SerializeField] private float timeLimit = 60f;      //½Ã°£ÃÖ´ë°ª 60ÃÊ
 
     private float currentTime;      //ÇöÀç ³²¾ÆÀÖ´Â ½Ã°£À» ³ªÅ¸³¾ º¯¼ö
 
+    private int totalMatches = 10;      //20ÀåÀÇ Ä«µåÁß ¿Ã¹Ù¸¥ Â¦À» Ã£À» ¼ö ÀÖ´Â ÃÖ´ë¼ıÀÚ´Â 10¹øÀÌ¹Ç·Î ÃÊ±â°ª10ÁöÁ¤
+    private int matchesFound = 0;       //¸îÀåÀÇ Ä«µå¸¦ Ã£¾Ñ´ÂÁö¸¦ ¾Ë¾Æº¼ º¯¼ö ÃÊ±â°ª0Àå
 
     void Awake()
     {
@@ -102,7 +111,7 @@ public class GameManager : MonoBehaviour
 
     public void CardClicked(Card card)      //Ä«µå°¡ Â¦ÀÌ ¸Â°Ô Å¬¸¯µÇ¾ú´ÂÁö È®ÀÎÇÒ ¸Ş¼Òµå
     {
-        if (isFlipping == true)     //µÚÁıÇôÁö°í ÀÖ´Â µ¿¾È¿¡´Â Å¬¸¯ ¹«½Ã
+        if (isFlipping || isGameOver)     //µÚÁıÇôÁö°í ÀÖ´Â µ¿¾È¿¡´Â Å¬¸¯ ¹«½Ã
         {
             return;
         }
@@ -132,7 +141,17 @@ public class GameManager : MonoBehaviour
         {
             card1.SetMatched();
             card2.SetMatched();
-            Debug.Log("°°Àº Ä«µåÀÔ´Ï´Ù");      
+
+            matchesFound++;         //Â¦ÀÌ ¸ÂÀ¸¸é ¸ÂÀº¸¸Å­ ¿Ã¹Ù¸¥Â¦À» ¸Â­Ÿ´Ù´ÂÀÇ¹Ì·Î 1°³¾¿´Ã·ÁÁÖ°í
+
+            Debug.Log("°°Àº Ä«µåÀÔ´Ï´Ù");
+
+            if (matchesFound == totalMatches)
+            {
+                GameOver(true);     //Å¬¸®¾î Çß´Ù°í Ç¥½ÃÇØÁÖ±â
+            }
+
+                  
         }
         else
         {
@@ -155,15 +174,31 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void GameOver(bool success)
+    void GameOver(bool success)     //¿©±â¿¡ µµ´ŞÇŞ´Ù´Â°Ç ÀÌ¹Ì ¼º°øÇß°Å³ª ½ÇÆĞÇßÀ½À» ÀÇ¹ÌÇÔ
     {
-        if(success)
+
+        if(!isGameOver)
         {
-            Debug.Log("¸ğµç Ä«µå¸¦ ¼º°øÀûÀ¸·Î µÚÁıÀ¸¼Ë³×¿ä!!");
+            isGameOver = true;      //Áßº¹ÇØ¼­ °ÔÀÓ¿À¹ö°¡ µÇ¸é ¾ÈµÇ±â ¶§¹®¿¡ ÇöÀç °ÔÀÓ¿À¹ö»óÅÂ°¡ ¾Æ´Ò ¶§¿¡¸¸ µÇµµ·Ï ¼³Á¤
+            StopCoroutine("CountDownTimerRoutine");     //½Ã°£ÀÌ Èå¸£´Â°É ¸ØÃçÁÖ°í
+
+            if (success)
+            {
+                gameOverText.SetText("¸ğµç Ä«µå¸¦ ¼º°øÀûÀ¸·Î µÚÁıÀ¸¼Ë³×¿ä!!");      //¼º°øÇßÀ»½Ã ÆĞ³Î¿¡ º¸¿©ÁÙ °Í
+            }
+            else
+            {
+                gameOverText.SetText("Á¦ÇÑ ½Ã°£³»¿¡ ¸ğµç Ä«µå¸¦ µÚÁı´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù..");
+            }
+
+            Invoke("ShowGameOverPanel", 2f);                //Áö¿¬½ÃÅ°´Â ¹æ¹ıÁß ÄÚ·çÆ¾¸»°íµµ ¾µ ¼ö ÀÕ´Â ¹æ¹ı,(¸Ş¼Òµå¸í,Áö¿¬½ÃÅ³½Ã°£:2.0ÃÊ)¼øÀ¸·Î ÀÛ¼ºÇÑ´Ù
+
         }
-        else
-        {
-            Debug.Log("Á¦ÇÑ ½Ã°£³»¿¡ ¸ğµç Ä«µå¸¦ µÚÁı´Âµ¥ ½ÇÆĞÇß½À´Ï´Ù..");
-        }
+
+    }
+
+    void ShowGameOverPanel()
+    {
+        gameOverPanel.SetActive(true);          //ÆĞÅÏ º¸¿©ÁÖ±â
     }
 }
