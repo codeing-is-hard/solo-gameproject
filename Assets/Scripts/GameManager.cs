@@ -39,11 +39,22 @@ public class GameManager : MonoBehaviour
 
         currentTime = timeLimit;        //처음시간을 60초로 설정
 
+        SetCurrentTimeText();       //택스트의 현재시간을 설정하는메소드
+
         StartCoroutine("FlipAllCardsRoutine");       //코루틴이벤트시작,코루틴을 문자열로 호출해야만 멈출 수 있다.
                                                      //지금은 실행하고 인터페이스가 진행되면 자동으로 멈춤(반복을 위해선 코루틴 내에 반복문 설정->yield리턴을 반복문 내에 작성하면 가능)
                                                      
 
     }
+
+    void SetCurrentTimeText()
+    {
+        int timeSec = Mathf.CeilToInt(currentTime);                    //초 단위 시간으로 변환,올림수로 반올림해주는(CeilToInt)
+        timeoutText.SetText(timeSec.ToString());                        //올림수로 반올림한 시간을 문자열로 바꿔서 타임아웃 택스트의 택스트로 설정한다.
+    }
+
+
+
 
     IEnumerator FlipAllCardsRoutine()
     {
@@ -69,6 +80,9 @@ public class GameManager : MonoBehaviour
         {
             currentTime -= Time.deltaTime;      //서로 다른 환경에서도 동일한 시간을 빼기 위해 프레임 보정해야함
             timeoutSlider.value = currentTime / timeLimit;          //실린더의 값=현재 시간을 최대 시간으로 나눈 값
+
+            SetCurrentTimeText();       //택스트 시간업데이트
+
             yield return null;      //지연없이 바로 다음 코루틴으로 진행
         }
 

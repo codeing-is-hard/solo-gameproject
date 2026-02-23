@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce11e539f1bab7418f7c493941bec1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeoutText: {fileID: 2060419844}
   timeoutSlider: {fileID: 45434718}
   timeLimit: 60
 --- !u!1 &519420028
@@ -793,7 +794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -86.36969, y: -31.057922}
+  m_AnchoredPosition: {x: -86.36969, y: -31.057861}
   m_SizeDelta: {x: 172.7394, y: 62.1158}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2060419844
