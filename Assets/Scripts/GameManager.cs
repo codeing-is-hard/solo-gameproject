@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;        //택스트파일 수정하려면 적어야함.
 using UnityEngine;
-using UnityEngine.UI;           //실린더쓸거면적어야함
+using UnityEngine.UI;           //실린더 쓸거면 적어야함
 using UnityEngine.SceneManagement;      //재시작 버튼을 누르면 씬을 다시 불러오기 위함
 
 public class GameManager : MonoBehaviour
@@ -33,9 +33,11 @@ public class GameManager : MonoBehaviour
     private int totalMatches = 10;      //20장의 카드중 올바른 짝을 찾을 수 있는 최대숫자는 10번이므로 초기값10지정
     private int matchesFound = 0;       //몇장의 카드를 찾앗는지를 알아볼 변수 초기값0장
 
+    [SerializeField] private GameObject SliderFill;     //실린더 게이지를 조절할 게임오브젝트 변수
+
     void Awake()
     {
-        if(instance == null)
+        if(instance == null)        //씬을 다시 불러왔을 때 초기화 해주는 역할
         {
             instance = this;        //값이 없다면 지금 게임매니저가 가지고 있는 인스턴스 값으로 대체
         }
@@ -94,6 +96,8 @@ public class GameManager : MonoBehaviour
 
             yield return null;      //지연없이 바로 다음 코루틴으로 진행
         }
+
+        SliderFill.SetActive(false);        //0초가 되면 그냥 실린더 게이지가 비활성화되도록 일단 설정
 
         GameOver(false);
 
@@ -207,5 +211,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("SampleScene");      // 재시작 버튼을 누르면 씬을 다시 로드해오기
     }
 
-
+    public void Quit()
+    {
+        Application.Quit();     //빌드시 앱을 끌 수 있게 해주는 종료코드 추가
+    }
 }
