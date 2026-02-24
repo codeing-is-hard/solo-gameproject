@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 
     public void CardClicked(Card card)      //카드가 짝이 맞게 클릭되었는지 확인할 메소드
     {
-        if (isFlipping || isGameOver)     //뒤집혀지고 있는 동안에는 클릭 무시
+        if (isFlipping || isGameOver)     //뒤집혀지고 있는 동안에는 클릭 무시하거나 게임이 끝낫을 때에는 클릭 못하도록
         {
             return;
         }
