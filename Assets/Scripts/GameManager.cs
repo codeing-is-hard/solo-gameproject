@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;        //택스트파일 수정하려면 적어야함.
 using UnityEngine;
 using UnityEngine.UI;           //실린더쓸거면적어야함
-
+using UnityEngine.SceneManagement;      //재시작 버튼을 누르면 씬을 다시 불러오기 위함
 
 public class GameManager : MonoBehaviour
 {
@@ -201,4 +201,11 @@ public class GameManager : MonoBehaviour
     {
         gameOverPanel.SetActive(true);          //패턴 보여주기
     }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("SampleScene");      // 재시작 버튼을 누르면 씬을 다시 로드해오기
+    }
+
+
 }
