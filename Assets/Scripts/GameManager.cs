@@ -184,11 +184,11 @@ public class GameManager : MonoBehaviour
 
             if (success)
             {
-                gameOverText.SetText("모든 카드를 성공적으로 뒤집으셧네요!!");      //성공했을시 패널에 보여줄 것
+                gameOverText.SetText("Game clear!!");      //성공했을시 패널에 보여줄 것,한글쓰려면 tmp작업해야되서 재수정
             }
             else
             {
-                gameOverText.SetText("제한 시간내에 모든 카드를 뒤집는데 실패했습니다..");
+                gameOverText.SetText("Game Over..");
             }
 
             Invoke("ShowGameOverPanel", 2f);                //지연시키는 방법중 코루틴말고도 쓸 수 잇는 방법,(메소드명,지연시킬시간:2.0초)순으로 작성한다
